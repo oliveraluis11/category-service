@@ -1,13 +1,9 @@
 package com.cucumber.categoryservice;
 
-import org.junit.jupiter.api.Test;
+import com.cucumber.categoryservice.configuration.CucumberConfiguration;
+import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
+@CucumberContextConfiguration
+@SpringBootTest(classes = CucumberConfiguration.class)
 class CategoryServiceApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
 }
