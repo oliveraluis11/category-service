@@ -14,6 +14,7 @@ import static org.mockito.Mockito.verify;
 public class CreateCategoryStepDefinitions {
     private CategoryRepository categoryRepository;
     private Category newCategory;
+    private Category categoryRequest;
     @Before
     public void setup() {
         categoryRepository = mock(CategoryRepository.class);
@@ -21,10 +22,10 @@ public class CreateCategoryStepDefinitions {
 
     @When("se crea una nueva categoría con nombre {string}")
     public void seCreaUnaNuevaCategoríaConNombre(String arg0) {
-        Category request = Category.builder().name(arg0).build();
+        this.categoryRequest = Category.builder().name(arg0).build();
 
         Mockito.when(categoryRepository
-                .save(request)).thenReturn(
+                .save(this.categoryRequest)).thenReturn(
                 Category
                         .builder()
                         .id("1")
@@ -32,14 +33,13 @@ public class CreateCategoryStepDefinitions {
                         .build()
         );
 
-        this.newCategory = categoryRepository.save(request);
+        this.newCategory = categoryRepository.save(this.categoryRequest);
 
     }
 
     @Then("la categoría con nombre {string} es creada correctamente")
     public void verificarCategoriaCreada(String nombreCategoria) {
-        Category request = Category.builder().name(nombreCategoria).build();
-        verify(this.categoryRepository).save(request);
+        verify(this.categoryRepository).save(this.categoryRequest);
         Assert.assertEquals(this.newCategory.getId(), "1");
         Assert.assertEquals(this.newCategory.getName(), nombreCategoria);
     }
